@@ -125,6 +125,9 @@ export const REWARDS_CATALOG: CatalogReward[] = [
   { id: "reward-flour", title: "Free 2kg Pembe Maize Flour", category: "Groceries", cost: 250 },
   { id: "reward-500", title: "KES 500 off your shop", category: "Vouchers", cost: 900 },
   { id: "reward-delivery", title: "Free delivery, next 3 orders", category: "Perks", cost: 150 },
+  { id: "reward-1000", title: "KES 1,000 off your shop", category: "Vouchers", cost: 1600 },
+  { id: "reward-sugar", title: "Free 1kg Sugar", category: "Groceries", cost: 180 },
+  { id: "reward-harleys", title: "10% off your next Harleys Pharmacy visit", category: "Perks", cost: 300 },
 ];
 
 export const INITIAL_ACTIVITY: ActivityEntry[] = [
