@@ -1,4 +1,4 @@
-import type { TierStatus } from "../lib/tiers";
+import { TIER_CARD_CLASSES, type TierStatus } from "../lib/tiers";
 
 export default function BalanceCard({
   balance,
@@ -8,9 +8,12 @@ export default function BalanceCard({
   tierStatus: TierStatus;
 }) {
   const { current, next, progress, pointsToNext } = tierStatus;
+  const card = TIER_CARD_CLASSES[current.name];
 
   return (
-    <div className="rounded-2xl bg-gradient-to-br from-naivas-orange to-naivas-orange-dark p-5 text-white shadow-lg shadow-naivas-orange/20">
+    <div
+      className={`rounded-2xl bg-gradient-to-br p-5 text-white shadow-lg ${card.gradient} ${card.shadow}`}
+    >
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium text-white/85">
           Naivas Rewards balance
