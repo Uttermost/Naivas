@@ -1,11 +1,13 @@
 import { useCallback, useRef, useState } from "react";
 import {
   INITIAL_ACTIVITY,
+  INITIAL_PERSONALIZED_OFFERS,
+  OFFER_TEMPLATES,
   POINTS_PER_KES,
   STARTING_BALANCE,
   STORES,
 } from "../data/mockData";
-import type { ActivityEntry } from "../types";
+import type { ActivityEntry, Offer } from "../types";
 import { getTierStatus } from "../lib/tiers";
 
 export interface ToastState {
@@ -16,14 +18,21 @@ export interface ToastState {
 
 let idCounter = 100;
 const nextId = () => `act-${idCounter++}`;
+const nextOfferId = () => `offer-gen-${idCounter++}`;
 
 export function useRewardsStore() {
   const [balance, setBalance] = useState(STARTING_BALANCE);
   const [activity, setActivity] = useState<ActivityEntry[]>(INITIAL_ACTIVITY);
+  const [personalizedOffers, setPersonalizedOffers] = useState<Offer[]>(
+    INITIAL_PERSONALIZED_OFFERS
+  );
   const [redeemedIds, setRedeemedIds] = useState<Set<string>>(new Set());
   const [isScanning, setIsScanning] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [highlightedOfferId, setHighlightedOfferId] = useState<string | null>(null);
   const [toast, setToast] = useState<ToastState | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const showToast = useCallback((message: string, tone: ToastState["tone"] = "success") => {
     if (toastTimer.current) clearTimeout(toastTimer.current);
@@ -85,14 +94,43 @@ export function useRewardsStore() {
       ]);
       setIsScanning(false);
       showToast(`+${points} pts earned at ${store.name}`);
+
+      // "Basket-aware" personalization: react to what was just bought by
+      // surfacing a fresh offer for that store's category, not a static list.
+      setIsAnalyzing(true);
+      window.setTimeout(() => {
+        const candidates = OFFER_TEMPLATES[store.category];
+        if (candidates && candidates.length > 0) {
+          const template = candidates[Math.floor(Math.random() * candidates.length)];
+          const newOffer: Offer = {
+            id: nextOfferId(),
+            title: template.title,
+            reason: template.reason(store.name),
+            cost: template.cost,
+            category: "Groceries",
+            personalized: true,
+          };
+          setPersonalizedOffers((prev) =>
+            [newOffer, ...prev.filter((o) => o.title !== newOffer.title)].slice(0, 3)
+          );
+          setHighlightedOfferId(newOffer.id);
+          if (highlightTimer.current) clearTimeout(highlightTimer.current);
+          highlightTimer.current = setTimeout(() => setHighlightedOfferId(null), 6000);
+          showToast(`New pick for you: ${newOffer.title}`);
+        }
+        setIsAnalyzing(false);
+      }, 1100);
     }, 1300);
   }, [isScanning, showToast]);
 
   return {
     balance,
     activity,
+    personalizedOffers,
     redeemedIds,
     isScanning,
+    isAnalyzing,
+    highlightedOfferId,
     toast,
     tierStatus,
     redeem,

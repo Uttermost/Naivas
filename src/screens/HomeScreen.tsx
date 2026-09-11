@@ -1,8 +1,9 @@
-import { CUSTOMER_INITIALS, CUSTOMER_NAME, PERSONALIZED_OFFERS } from "../data/mockData";
+import { CUSTOMER_INITIALS, CUSTOMER_NAME } from "../data/mockData";
 import BalanceCard from "../components/BalanceCard";
 import PartnerStrip from "../components/PartnerStrip";
 import OfferCard from "../components/OfferCard";
 import type { TierStatus } from "../lib/tiers";
+import type { Offer } from "../types";
 
 function greeting() {
   const hour = new Date().getHours();
@@ -17,6 +18,9 @@ export default function HomeScreen({
   isScanning,
   onScan,
   onBrowseRewards,
+  offers,
+  isAnalyzing,
+  highlightedOfferId,
   redeemedIds,
   onRedeemOffer,
 }: {
@@ -25,6 +29,9 @@ export default function HomeScreen({
   isScanning: boolean;
   onScan: () => void;
   onBrowseRewards: () => void;
+  offers: Offer[];
+  isAnalyzing: boolean;
+  highlightedOfferId: string | null;
   redeemedIds: Set<string>;
   onRedeemOffer: (offerId: string, title: string, cost: number) => void;
 }) {
@@ -81,11 +88,24 @@ export default function HomeScreen({
           </span>
         </div>
         <div className="mt-2 space-y-2">
-          {PERSONALIZED_OFFERS.map((offer) => (
+          {isAnalyzing && (
+            <div className="flex items-center gap-2 rounded-xl border border-naivas-green/30 bg-white/60 p-3">
+              <span className="flex gap-1">
+                <span className="h-1.5 w-1.5 animate-scan rounded-full bg-naivas-green [animation-delay:0ms]" />
+                <span className="h-1.5 w-1.5 animate-scan rounded-full bg-naivas-green [animation-delay:150ms]" />
+                <span className="h-1.5 w-1.5 animate-scan rounded-full bg-naivas-green [animation-delay:300ms]" />
+              </span>
+              <p className="text-xs font-medium text-naivas-ink/60">
+                Updating your picks from that basket...
+              </p>
+            </div>
+          )}
+          {offers.map((offer) => (
             <OfferCard
               key={offer.id}
               offer={offer}
               redeemed={redeemedIds.has(offer.id)}
+              highlighted={offer.id === highlightedOfferId}
               onRedeem={() => onRedeemOffer(offer.id, offer.title, offer.cost)}
             />
           ))}

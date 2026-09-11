@@ -32,6 +32,9 @@ export default function App() {
             isScanning={store.isScanning}
             onScan={store.scanReceipt}
             onBrowseRewards={() => setScreen("rewards")}
+            offers={store.personalizedOffers}
+            isAnalyzing={store.isAnalyzing}
+            highlightedOfferId={store.highlightedOfferId}
             redeemedIds={store.redeemedIds}
             onRedeemOffer={(id, title, cost) => store.redeem(id, title, cost, "Groceries")}
           />

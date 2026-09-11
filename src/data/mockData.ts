@@ -29,7 +29,7 @@ export const STORES = [
   { name: "Harleys Pharmacy, Yaya", category: "Health & wellness", partnerId: "harleys" },
 ];
 
-export const PERSONALIZED_OFFERS: Offer[] = [
+export const INITIAL_PERSONALIZED_OFFERS: Offer[] = [
   {
     id: "offer-pampers",
     title: "KES 150 off Pampers, size 4",
@@ -47,6 +47,58 @@ export const PERSONALIZED_OFFERS: Offer[] = [
     personalized: true,
   },
 ];
+
+// Candidate offers the "engine" can surface after a scan, keyed by store
+// category — a stand-in for basket-aware recommendation logic.
+interface OfferTemplate {
+  title: string;
+  reason: (storeName: string) => string;
+  cost: number;
+}
+
+export const OFFER_TEMPLATES: Record<string, OfferTemplate[]> = {
+  Groceries: [
+    {
+      title: "KES 100 off 2kg Pembe Maize Flour",
+      reason: (store) => `Restocked at ${store} — flour's usually in your basket`,
+      cost: 200,
+    },
+    {
+      title: "10% off Brookside Fresh Milk 1L",
+      reason: (store) => `A regular pickup at ${store}`,
+      cost: 150,
+    },
+    {
+      title: "KES 80 off Tropikal Cooking Oil 2L",
+      reason: (store) => `Due for a restock, based on your basket at ${store}`,
+      cost: 180,
+    },
+  ],
+  Household: [
+    {
+      title: "KES 80 off Omo Detergent 1kg",
+      reason: (store) => `Household run at ${store} — due for a restock`,
+      cost: 180,
+    },
+    {
+      title: "Buy 1 get 1, Kim Toilet Paper 4-pack",
+      reason: (store) => `A regular in your household basket at ${store}`,
+      cost: 0,
+    },
+  ],
+  "Health & wellness": [
+    {
+      title: "Buy 1 get 1, Panadol Extra",
+      reason: (store) => `Picked up at ${store} — stock up while it's fresh`,
+      cost: 0,
+    },
+    {
+      title: "15% off Multivitamins",
+      reason: (store) => `Health visit at ${store} today`,
+      cost: 220,
+    },
+  ],
+};
 
 export const REWARDS_CATALOG: CatalogReward[] = [
   { id: "reward-200", title: "KES 200 off your shop", category: "Vouchers", cost: 400 },

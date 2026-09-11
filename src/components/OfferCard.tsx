@@ -3,10 +3,12 @@ import type { Offer } from "../types";
 export default function OfferCard({
   offer,
   redeemed,
+  highlighted,
   onRedeem,
 }: {
   offer: Offer;
   redeemed: boolean;
+  highlighted?: boolean;
   onRedeem: () => void;
 }) {
   return (
@@ -17,13 +19,22 @@ export default function OfferCard({
       className={`flex w-full items-center justify-between rounded-xl border p-3 text-left transition ${
         redeemed
           ? "border-black/5 bg-white/40 opacity-60"
-          : "border-black/5 bg-white/80 hover:border-naivas-orange/40 active:scale-[0.99]"
+          : highlighted
+            ? "border-naivas-green/50 bg-white ring-2 ring-naivas-green/25"
+            : "border-black/5 bg-white/80 hover:border-naivas-orange/40 active:scale-[0.99]"
       }`}
     >
       <div className="min-w-0 pr-3">
-        <p className="truncate text-sm font-semibold text-naivas-ink">
-          {offer.title}
-        </p>
+        <div className="flex items-center gap-1.5">
+          <p className="truncate text-sm font-semibold text-naivas-ink">
+            {offer.title}
+          </p>
+          {highlighted && !redeemed && (
+            <span className="shrink-0 rounded-full bg-naivas-green/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-naivas-green">
+              New
+            </span>
+          )}
+        </div>
         <p className="mt-0.5 text-xs italic text-naivas-ink/55">
           {offer.reason}
         </p>
