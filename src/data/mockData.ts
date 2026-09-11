@@ -166,6 +166,41 @@ export const INITIAL_ACTIVITY: ActivityEntry[] = [
     pointsDelta: 37,
     timestamp: Date.now() - 1000 * 60 * 60 * 24 * 5,
   },
+  {
+    id: "act-5",
+    kind: "earn",
+    title: "Naivas Express, Ngong Road",
+    subtitle: "Groceries · 1 week ago",
+    amountLabel: "KES 2,150",
+    pointsDelta: 43,
+    timestamp: Date.now() - 1000 * 60 * 60 * 24 * 7,
+  },
+  {
+    id: "act-6",
+    kind: "redeem",
+    title: "Redeemed: Free delivery, next 3 orders",
+    subtitle: "Reward · 9 days ago",
+    pointsDelta: -150,
+    timestamp: Date.now() - 1000 * 60 * 60 * 24 * 9,
+  },
+  {
+    id: "act-7",
+    kind: "earn",
+    title: "Harleys Pharmacy, Yaya",
+    subtitle: "Health & wellness · 2 weeks ago",
+    amountLabel: "KES 640",
+    pointsDelta: 13,
+    timestamp: Date.now() - 1000 * 60 * 60 * 24 * 14,
+  },
+  {
+    id: "act-8",
+    kind: "earn",
+    title: "Naivas Kilimani",
+    subtitle: "Groceries · 3 weeks ago",
+    amountLabel: "KES 4,120",
+    pointsDelta: 82,
+    timestamp: Date.now() - 1000 * 60 * 60 * 24 * 21,
+  },
 ];
 
 export const POINTS_PER_KES = 1 / 50;
