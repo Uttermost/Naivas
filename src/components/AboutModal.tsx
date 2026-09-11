@@ -1,4 +1,20 @@
-export default function AboutModal({ onClose }: { onClose: () => void }) {
+import { TIERS } from "../data/mockData";
+import type { TierStatus } from "../lib/tiers";
+import type { TierName } from "../types";
+
+const TIER_PERKS: Record<TierName, string[]> = {
+  Silver: ["1 pt for every KES 50 spent", "Redeem points any time, before or at checkout"],
+  Gold: ["Everything in Silver", "Priority checkout lane in store", "Bonus points in your birthday month"],
+  Platinum: ["Everything in Gold", "Free delivery on every order", "Dedicated member support line"],
+};
+
+export default function AboutModal({
+  tierStatus,
+  onClose,
+}: {
+  tierStatus: TierStatus;
+  onClose: () => void;
+}) {
   return (
     <div
       className="absolute inset-0 z-40 flex items-end bg-black/40"
@@ -9,62 +25,75 @@ export default function AboutModal({ onClose }: { onClose: () => void }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mx-auto mb-4 h-1.5 w-10 rounded-full bg-black/10" />
-        <p className="text-xs font-semibold uppercase tracking-wide text-naivas-orange">
-          Concept demo
-        </p>
-        <h2 className="mt-1 text-xl font-bold">Naivas Rewards</h2>
-        <p className="mt-2 text-sm leading-relaxed text-naivas-ink/70">
-          This prototype sits alongside the existing NaivasCard / Reward Card
-          programme — it doesn't replace it. It's the app-native layer that
-          lets customers see, earn, and spend their rewards in real time.
+        <h2 className="text-xl font-bold">How Naivas Rewards works</h2>
+        <p className="mt-1 text-xs text-naivas-ink/50">
+          Member since 14 Mar 2024 · ID NR-48213
         </p>
 
-        <div className="mt-5 space-y-3">
-          <div className="rounded-2xl border border-naivas-orange/30 bg-white/60 p-4">
-            <span className="inline-block rounded-full bg-naivas-orange/15 px-2 py-0.5 text-[11px] font-semibold text-naivas-orange">
-              Cross-group
-            </span>
-            <p className="mt-2 text-sm font-semibold">One balance, across IBL in Kenya</p>
-            <p className="mt-1 text-xs leading-relaxed text-naivas-ink/60">
-              Naivas and Harleys Pharmacy share one points balance — everyday
-              grocery and pharmacy spend become a single loyalty relationship.
-            </p>
-          </div>
-          <div className="rounded-2xl border border-naivas-green/30 bg-white/60 p-4">
-            <span className="inline-block rounded-full bg-naivas-green/15 px-2 py-0.5 text-[11px] font-semibold text-naivas-green">
-              AI-enabled
-            </span>
-            <p className="mt-2 text-sm font-semibold">Personalized, not flat</p>
-            <p className="mt-1 text-xs leading-relaxed text-naivas-ink/60">
-              Basket-aware offers built from purchase history, with a
-              plain-language reason attached to each one.
-            </p>
-          </div>
+        <p className="mt-4 text-sm leading-relaxed text-naivas-ink/70">
+          One points balance for everyday grocery and pharmacy spend — earn
+          instantly when you shop, then spend it on vouchers, groceries, and
+          perks whenever you like.
+        </p>
+
+        <div className="mt-5 rounded-2xl border border-naivas-orange/30 bg-white/60 p-4">
+          <p className="text-sm font-semibold">One balance, two places to use it</p>
+          <p className="mt-1 text-xs leading-relaxed text-naivas-ink/60">
+            Naivas and Harleys Pharmacy share the same points balance — every
+            grocery run and pharmacy visit adds to one account, no separate
+            card to carry.
+          </p>
+        </div>
+
+        <div className="mt-3 rounded-2xl border border-naivas-green/30 bg-white/60 p-4">
+          <p className="text-sm font-semibold">Offers picked for your basket</p>
+          <p className="mt-1 text-xs leading-relaxed text-naivas-ink/60">
+            "Picked for you" offers are based on what you actually buy, with
+            a plain-language reason attached to each one — not a flat,
+            storewide discount.
+          </p>
         </div>
 
         <p className="mt-5 text-xs font-semibold uppercase tracking-wide text-naivas-ink/50">
-          Phased approach
+          Membership tiers
         </p>
-        <ol className="mt-2 space-y-2 text-sm">
-          <li className="rounded-xl bg-white/50 p-3">
-            <span className="font-semibold">1. Foundation —</span>{" "}
-            <span className="text-naivas-ink/70">
-              app-native view onto the existing Reward Card balance
-            </span>
-          </li>
-          <li className="rounded-xl bg-white/50 p-3">
-            <span className="font-semibold">2. Personalization —</span>{" "}
-            <span className="text-naivas-ink/70">
-              basket-aware offers, tiering, lapsed-member nudges
-            </span>
-          </li>
-          <li className="rounded-xl bg-white/50 p-3">
-            <span className="font-semibold">3. Cross-group —</span>{" "}
-            <span className="text-naivas-ink/70">
-              shared balance across Naivas and Harleys, till-side tooling
-            </span>
-          </li>
-        </ol>
+        <div className="mt-2 space-y-2">
+          {TIERS.map((tier) => {
+            const isCurrent = tier.name === tierStatus.current.name;
+            return (
+              <div
+                key={tier.name}
+                className={`rounded-xl border p-3 ${
+                  isCurrent
+                    ? "border-naivas-orange/40 bg-white"
+                    : "border-black/5 bg-white/50"
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <p className="text-sm font-semibold">{tier.name}</p>
+                  <span className="text-[11px] text-naivas-ink/45">
+                    {tier.threshold.toLocaleString()}+ pts
+                  </span>
+                  {isCurrent && (
+                    <span className="ml-auto rounded-full bg-naivas-orange/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-naivas-orange">
+                      Your tier
+                    </span>
+                  )}
+                </div>
+                <ul className="mt-1.5 space-y-0.5 text-xs text-naivas-ink/60">
+                  {TIER_PERKS[tier.name].map((perk) => (
+                    <li key={perk}>· {perk}</li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+
+        <p className="mt-5 text-[11px] leading-relaxed text-naivas-ink/45">
+          Points expire 12 months after your last purchase. Terms and
+          conditions apply — see in-store or naivas.co.ke for full details.
+        </p>
 
         <button
           type="button"

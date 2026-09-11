@@ -51,7 +51,9 @@ export default function App() {
         <BottomNav active={screen} onChange={setScreen} />
 
         <Toast toast={store.toast} />
-        {aboutOpen && <AboutModal onClose={() => setAboutOpen(false)} />}
+        {aboutOpen && (
+          <AboutModal tierStatus={store.tierStatus} onClose={() => setAboutOpen(false)} />
+        )}
       </PhoneFrame>
     </div>
   );
