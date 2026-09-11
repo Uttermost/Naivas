@@ -73,6 +73,16 @@ export const OFFER_TEMPLATES: Record<string, OfferTemplate[]> = {
       reason: (store) => `Due for a restock, based on your basket at ${store}`,
       cost: 180,
     },
+    {
+      title: "KES 60 off Ketepa Tea 500g",
+      reason: (store) => `A staple in your recent baskets at ${store}`,
+      cost: 120,
+    },
+    {
+      title: "5% off your next Naivas shop",
+      reason: (store) => `Frequent shopper at ${store} this month`,
+      cost: 250,
+    },
   ],
   Household: [
     {
@@ -85,6 +95,11 @@ export const OFFER_TEMPLATES: Record<string, OfferTemplate[]> = {
       reason: (store) => `A regular in your household basket at ${store}`,
       cost: 0,
     },
+    {
+      title: "15% off Jik Bleach 750ml",
+      reason: (store) => `Cleaning supplies running low, based on ${store}`,
+      cost: 140,
+    },
   ],
   "Health & wellness": [
     {
@@ -96,6 +111,11 @@ export const OFFER_TEMPLATES: Record<string, OfferTemplate[]> = {
       title: "15% off Multivitamins",
       reason: (store) => `Health visit at ${store} today`,
       cost: 220,
+    },
+    {
+      title: "KES 100 off Dettol Antiseptic 250ml",
+      reason: (store) => `Picked up at ${store} recently`,
+      cost: 160,
     },
   ],
 };
