@@ -1,15 +1,16 @@
 # Naivas Digital Ecosystem — Demos
 
-Interactive prototypes built by [Graph Technologies](https://graph.co.ke) alongside
-the *Naivas Digital Ecosystem* proposal. Four separately scoped projects, connected
-only through a shared rewards ledger — matching how they're proposed to Naivas.
+Four independent, interactive prototypes built by [Graph Technologies](https://graph.co.ke)
+alongside the *Naivas Digital Ecosystem* proposal — each deployed as its own standalone page,
+matching how the three projects are scoped: separately, connected only through a shared
+rewards ledger.
 
-| Demo | Project | What it shows |
-|---|---|---|
-| **Naivas Rewards** | Loyalty | Balance, tiering, personalized offers, cross-group ledger with Harleys |
-| **Naivas Online** | eCommerce | Shop, cart, checkout, delivery/pickup, order history |
-| **Naivas Delivery** | Fulfilment | Live order tracking, rider contact, delivery instructions |
-| **Ops Dashboard** | Internal tooling | Branch queues, on-time rate, rider roster — live |
+| Demo | URL path | Project | What it shows |
+|---|---|---|---|
+| **Naivas Rewards** | `/rewards/` | Loyalty | Balance, tiering, personalized offers, cross-group ledger with Harleys |
+| **Naivas Online** | `/online/` | eCommerce | Shop, cart, checkout, delivery/pickup, order history |
+| **Naivas Delivery** | `/delivery/` | Fulfilment | Live order tracking, rider contact, delivery instructions |
+| **Ops Dashboard** | `/ops-dashboard/` | Internal tooling | Branch queues, on-time rate, rider roster — live |
 
 ## Run locally
 
@@ -17,6 +18,8 @@ only through a shared rewards ledger — matching how they're proposed to Naivas
 npm install
 npm run dev
 ```
+
+Each demo is reachable individually, e.g. `http://localhost:5173/rewards/`.
 
 ## Build
 
@@ -28,7 +31,7 @@ npm run preview
 ## Deploy
 
 Pushing to `main` triggers the included GitHub Actions workflow
-(`.github/workflows/deploy.yml`), which builds the site and publishes it to
+(`.github/workflows/deploy.yml`), which builds all four pages and publishes them to
 GitHub Pages automatically. Enable Pages under **Settings → Pages → Source: GitHub Actions**
 on first setup.
 
