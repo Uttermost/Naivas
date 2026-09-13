@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react'
 // Base path matches the GitHub Pages project site URL (/<repo-name>/)
 export default defineConfig({
   plugins: [react()],
-  base: '/naivas-digital-ecosystem-demos/',
+  base: '/Naivas/',
 })
